@@ -1,0 +1,42 @@
+---
+- name: "Updating the guest operating system."
+  apt:
+    force_apt_get: true
+    name: "*"
+    state: latest # noqa package-latest
+    update_cache: "yes"
+- name: "Install Docker system dependencies"
+  apt:
+    force_apt_get: true
+    name:
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      # - curl Not needed as already installed in base task, kept in to keep install reference consistent
+    state: latest
+- name: "Add Docker's official GPG key"
+  shell: |
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  args:
+    warn: false
+- name: "Setup Docker repository"
+  shell: |
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  args:
+    warn: false
+- name: "Updating the guest operating system."
+  apt:
+    force_apt_get: true
+    name: "*"
+    state: latest
+    update_cache: "yes"
+- name: "Install Docker ce dependencies"
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
+      - containerd.io
+    state: latest
+    update_cache: "yes"

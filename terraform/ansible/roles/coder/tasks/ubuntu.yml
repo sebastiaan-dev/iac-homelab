@@ -1,0 +1,36 @@
+---
+- name: "Manage Docker as non-root user"
+  shell: |
+    sudo chmod 666 /var/run/docker.sock
+  args:
+    warn: false
+- name: "Fetch Coder repository"
+  shell: |
+    git clone https://github.com/coder/coder.git
+  args:
+    warn: false
+- name: "Copy Docker Compose configuration file"
+  copy:
+    src: docker-compose-coder.yaml
+    dest: ./coder/docker-compose-coder.yaml
+- name: "Install Coder as Docker Compose instance"
+  shell: |
+    cd coder
+    docker compose -f docker-compose-coder.yaml up -d
+  environment:
+    CODER_ACCESS_URL: "https://workspace.serpentine.ai"
+    CODER_WILDCARD_ACCESS_URL: "*.workspace.serpentine.ai"
+    CODER_OIDC_ISSUER_URL: "https://slack.com"
+    CODER_OIDC_CLIENT_ID: "4587536402693.4614199982071"
+    CODER_OIDC_CLIENT_SECRET: "ceb172879359be8c6f21fcfd818d103a"
+    CODER_EXPERIMENTAL: true
+  args:
+    warn: false
+- name: Make sure service has time to start
+  pause:
+    seconds: 10
+- name: "Configure first user"
+  shell: |
+    docker exec -it coder-coder-1 sh -c "CODER_FIRST_USER_USERNAME=sebastiaan CODER_FIRST_USER_EMAIL=bas907@gmail.com CODER_FIRST_USER_PASSWORD=1234 CODER_FIRST_USER_TRIAL=false coder login https://workspace.serpentine.ai"
+  args:
+    warn: false

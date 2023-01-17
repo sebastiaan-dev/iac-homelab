@@ -1,0 +1,27 @@
+---
+- name: "Manage Docker as non-root user"
+  shell: |
+    sudo chmod 666 /var/run/docker.sock
+  args:
+    warn: false
+- name: "Create directories"
+  shell: |
+    mkdir traefik
+    cd traefik
+    mkdir config
+  args:
+    warn: false
+- name: "Copy Traefik configuration file"
+  copy:
+    src: traefik-config.yml
+    dest: ./traefik/config/traefik-config.yml
+- name: "Copy Docker Compose configuration file"
+  copy:
+    src: docker-compose-traefik.yaml
+    dest: ./traefik/docker-compose-traefik.yaml
+- name: "Install Traefik as Docker Compose instance"
+  shell: |
+    cd traefik
+    docker compose -f docker-compose-traefik.yaml up -d
+  args:
+    warn: false

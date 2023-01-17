@@ -1,0 +1,15 @@
+http:
+  routers:
+    coder:
+      rule: "Host(`workspace.serpentine.ai`)"
+      entryPoints:
+        - "websecure"
+      tls:
+        certResolver: "myresolver"
+      service: "coder"
+  
+  services:
+    coder:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.80:7080"

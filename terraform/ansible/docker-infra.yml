@@ -1,0 +1,9 @@
+---
+- become: "yes"
+  become_method: sudo
+  debugger: never
+  gather_facts: "yes"
+  hosts: all
+  roles:
+    - docker
+    - traefik

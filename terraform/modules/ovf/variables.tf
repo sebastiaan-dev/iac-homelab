@@ -100,3 +100,7 @@ variable "vm_dns_server_list" {
 variable "playbook_path" {
   type = string
 }
+
+variable "playbook_arguments" {
+  type = list(string)
+}

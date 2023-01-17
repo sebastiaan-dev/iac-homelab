@@ -12,12 +12,12 @@
   args:
     warn: false
 - name: "Copy Traefik configuration file"
-  copy:
-    src: traefik-config.yml
+  template:
+    src: traefik-config.yml.j2
     dest: ./traefik/config/traefik-config.yml
 - name: "Copy Docker Compose configuration file"
-  copy:
-    src: docker-compose-traefik.yaml
+  template:
+    src: docker-compose-traefik.yaml.j2
     dest: ./traefik/docker-compose-traefik.yaml
 - name: "Install Traefik as Docker Compose instance"
   shell: |

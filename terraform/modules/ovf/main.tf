@@ -72,7 +72,7 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -u ansible -i ${var.vm_ipv4_address}, --private-key ansible.pk ${var.playbook_path}"
+    command = "ansible-playbook -u ansible -i ${var.vm_ipv4_address}, --private-key ansible.pk ${var.playbook_path} ${join(" ", var.playbook_arguments)}"
     environment = {
       ANSIBLE_CONFIG = "ansible/ansible.cfg"
     }

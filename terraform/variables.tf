@@ -42,6 +42,11 @@ variable "vsphere_datacenter" {
   type        = string
 }
 
+variable "vsphere_datastore" {
+  description = "Storage solution consumed infrastructure"
+  type        = string
+}
+
 variable "vsphere_cluster" {
   description = "Name for target cluster deployment"
   type        = string
@@ -50,4 +55,46 @@ variable "vsphere_cluster" {
 variable "vsphere_resource_pool" {
   description = "Name for target resource pool in cluster"
   type        = string
+}
+
+variable "vsphere_network" {
+  description = "Network used by deployed infrastructure"
+  type        = string
+}
+
+variable "vsphere_content_library" {
+  description = "Content library which contains OVF"
+  type        = string
+}
+
+#
+# Domain configuration
+#
+
+# Public
+
+variable "public_domain" {
+  type = string
+}
+
+variable "public_email" {
+  type = string
+}
+
+# Internal
+
+variable "internal_ipv4_netmask" {
+  type = string
+}
+
+variable "internal_ipv4_gateway" {
+  type = string
+}
+
+variable "internal_dns_suffix_list" {
+  type = list(string)
+}
+
+variable "internal_dns_server_list" {
+  type = list(string)
 }

@@ -1,0 +1,25 @@
+http:
+  routers:
+    coder:
+      rule: "Host(`{{ CODER_SUBDOMAIN }}.{{ DOMAIN }}`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      tls:
+        certResolver: "le"
+      middlewares:
+        - "http-to-https"
+      service: "coder"
+  
+  middlewares:
+    http-to-https:
+      redirectRegex:
+        regex: "^https?://www\\.(.+)"
+        replacement: "https://${1}"
+        permanent: true
+  
+  services:
+    coder:
+      loadBalancer:
+        servers:
+          - url: "http://{{ CODER_SERVER }}"

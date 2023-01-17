@@ -1,0 +1,18 @@
+/*
+    DESCRIPTION:
+    VMware vSphere variables used for all builds.
+    - Variables are use by the source blocks.
+*/
+
+// vSphere Credentials
+vsphere_vcenter_server      = ""
+vsphere_username            = ""
+vsphere_password            = ""
+vsphere_insecure_connection = true
+
+// vSphere Settings
+vsphere_datacenter = ""
+vsphere_cluster    = ""
+vsphere_datastore  = ""
+vsphere_network    = ""
+vsphere_folder     = ""

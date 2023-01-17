@@ -18,12 +18,12 @@
     cd coder
     docker compose -f docker-compose-coder.yaml up -d
   environment:
-    CODER_ACCESS_URL: "https://workspace.serpentine.ai"
-    CODER_WILDCARD_ACCESS_URL: "*.workspace.serpentine.ai"
-    CODER_OIDC_ISSUER_URL: "https://slack.com"
-    CODER_OIDC_CLIENT_ID: "4587536402693.4614199982071"
-    CODER_OIDC_CLIENT_SECRET: "ceb172879359be8c6f21fcfd818d103a"
-    CODER_EXPERIMENTAL: true
+    CODER_ACCESS_URL: "https://{{ CODER_ACCESS_URL }}"
+    CODER_WILDCARD_ACCESS_URL: "{{ CODER_WILDCARD_ACCESS_URL }}"
+    CODER_OIDC_ISSUER_URL: "{{ CODER_OIDC_ISSUER_URL }}"
+    CODER_OIDC_CLIENT_ID: "{{ CODER_OIDC_CLIENT_ID }}"
+    CODER_OIDC_CLIENT_SECRET: "{{ CODER_OIDC_CLIENT_SECRET }}"
+    CODER_EXPERIMENTAL: "{{ CODER_EXPERIMENTAL }}"
   args:
     warn: false
 - name: Make sure service has time to start
@@ -31,6 +31,6 @@
     seconds: 10
 - name: "Configure first user"
   shell: |
-    docker exec -it coder-coder-1 sh -c "CODER_FIRST_USER_USERNAME=sebastiaan CODER_FIRST_USER_EMAIL=bas907@gmail.com CODER_FIRST_USER_PASSWORD=1234 CODER_FIRST_USER_TRIAL=false coder login https://workspace.serpentine.ai"
+    docker exec -it coder-coder-1 sh -c "CODER_FIRST_USER_USERNAME={{ CODER_FIRST_USER_USERNAME }} CODER_FIRST_USER_EMAIL={{ CODER_FIRST_USER_EMAIL }} CODER_FIRST_USER_PASSWORD={{ CODER_FIRST_USER_PASSWORD }} CODER_FIRST_USER_TRIAL={{ CODER_FIRST_USER_TRIAL }} coder login {{ CODER_ACCESS_URL }}"
   args:
     warn: false

@@ -1,22 +1,35 @@
 http:
   routers:
-    coder:
+    coder-https:
       rule: "Host(`{{ CODER_SUBDOMAIN }}.{{ DOMAIN }}`)"
       entryPoints:
-        - "web"
         - "websecure"
       tls:
         certResolver: "le"
       middlewares:
-        - "http-to-https"
+        - "redirect-www"
+      service: "coder"
+
+    coder-http:
+      rule: "Host(`{{ CODER_SUBDOMAIN }}.{{ DOMAIN }}`)"
+      entryPoints:
+        - "web"
+      middlewares:
+        - "redirect-http"
+        - "redirect-www"
       service: "coder"
   
   middlewares:
-    http-to-https:
+    redirect-www:
       redirectRegex:
         regex: "^https?://www\\.(.+)"
         replacement: "https://${1}"
-        permanent: true
+        permanent: "true"
+
+    redirect-http:
+      redirectScheme:
+        scheme: "https"
+        permanent: "true"
   
   services:
     coder:

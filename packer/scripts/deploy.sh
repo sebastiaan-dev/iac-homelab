@@ -1,4 +1,4 @@
-cd ubuntu/22-10
+cd $1/$2
 packer init .
 cd ../..
 packer build \
@@ -6,6 +6,6 @@ packer build \
  -var-file="common.pkrvars.hcl" \
  -var-file="build.pkrvars.hcl" \
  -var-file="ansible.pkrvars.hcl" \
- -var-file="ubuntu/22-10/ubuntu.pkrvars.hcl" \
- -var-file="hardware/large.pkrvars.hcl" \
+ -var-file="$1/$2/$1.pkrvars.hcl" \
+ -var-file="hardware/$3.pkrvars.hcl" \
  -force ./ubuntu/22-10

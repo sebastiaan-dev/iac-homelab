@@ -13,7 +13,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
-      # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.le.acme.email={{ CONTACT_INFO }}"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--providers.file.directory=/home/ansible/traefik/config/"

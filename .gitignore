@@ -6,12 +6,16 @@ terraform.tfstate
 terraform.tfstate.*
 terraform.tfvars
 terraform.*.tfvars
+terraform/variables/*
+!terraform/variables/terraform.tfvars.example
 
 # Packer
 packer_cache/
 build.pkrvars.hcl
 vsphere.pkrvars.hcl
 ansible.pkrvars.hcl
+packer/manifests/*
+!packer/manifests/.gitkeep
 
 # Keys
 *.pk

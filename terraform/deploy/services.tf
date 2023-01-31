@@ -1,44 +1,4 @@
 #
-# vSphere/vCenter configuration
-#
-
-# Connect to vCenter instance
-provider "vsphere" {
-  user                 = var.vsphere_user
-  password             = var.vsphere_password
-  vsphere_server       = var.vsphere_vcenter_server
-  allow_unverified_ssl = var.vsphere_unverified_ssl
-}
-
-# Select datacenter within vCenter (vSphere instance)
-data "vsphere_datacenter" "dc" {
-  name = var.vsphere_datacenter
-}
-
-data "vsphere_host" "host" {
-  count         = length(var.hosts)
-  name          = var.hosts[count.index]
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-resource "vsphere_folder" "folder" {
-  path          = var.vsphere_folder
-  type          = "vm"
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-# Select cluster in datacenter to place VM
-data "vsphere_compute_cluster" "cluster" {
-  name          = var.vsphere_cluster
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-resource "vsphere_resource_pool" "resource_pool" {
-  name                    = var.vsphere_resource_pool
-  parent_resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-}
-
-#
 # Coder service configuration
 #
 
@@ -54,7 +14,7 @@ module "coder" {
   vsphere_datacenter          = data.vsphere_datacenter.dc.id
   vsphere_datastore           = var.vsphere_datastore
   vsphere_folder              = var.vsphere_folder
-  vsphere_resource_pool       = vsphere_resource_pool.resource_pool.id
+  vsphere_resource_pool       = data.vsphere_resource_pool.resource_pool.id
   vsphere_network             = var.vsphere_network
   vsphere_content_library     = var.vsphere_content_library
   vsphere_content_library_ovf = local.coder_ovf
@@ -86,8 +46,8 @@ module "coder" {
     "--extra-vars", "'CODER_FIRST_USER_PASSWORD=${var.coder_first_user_password}'",
     "--extra-vars", "'CODER_FIRST_USER_TRIAL=${var.coder_first_user_trial}'",
   ]
-}
 
+}
 #
 # Docker infrastructure service configuration
 #
@@ -102,7 +62,7 @@ module "docker-infra" {
   vsphere_datacenter          = data.vsphere_datacenter.dc.id
   vsphere_datastore           = var.vsphere_datastore
   vsphere_folder              = var.vsphere_folder
-  vsphere_resource_pool       = vsphere_resource_pool.resource_pool.id
+  vsphere_resource_pool       = data.vsphere_resource_pool.resource_pool.id
   vsphere_network             = var.vsphere_network
   vsphere_content_library     = var.vsphere_content_library
   vsphere_content_library_ovf = local.infra_ovf
@@ -129,7 +89,6 @@ module "docker-infra" {
     "--extra-vars", "'CODER_SERVER=${var.coder_vm_ipv4_address}:7080'",
   ]
 }
-
 #
 # VPN service configuration
 #
@@ -144,7 +103,7 @@ module "vpn" {
   vsphere_datacenter          = data.vsphere_datacenter.dc.id
   vsphere_datastore           = var.vsphere_datastore
   vsphere_folder              = var.vsphere_folder
-  vsphere_resource_pool       = vsphere_resource_pool.resource_pool.id
+  vsphere_resource_pool       = data.vsphere_resource_pool.resource_pool.id
   vsphere_network             = var.vsphere_network
   vsphere_content_library     = var.vsphere_content_library
   vsphere_content_library_ovf = local.vpn_ovf

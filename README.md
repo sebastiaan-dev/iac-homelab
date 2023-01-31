@@ -45,7 +45,7 @@ TODO: change le server to production doc (prevents Coder certificate error)
 - Manual configuration of ISO files, OVF library and OVF permissions is required.
 - Packer and Terraform run as the root user.
 - Ansible playbooks are not idempotent.
-- variables.<service>.tf needs to defined manually
+- variables.\<service>.tf needs to defined manually
 - Manual key generation required
 - Build process must be manually included
 - Packer and Terraform shared variables are not DRY

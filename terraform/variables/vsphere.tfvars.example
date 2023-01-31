@@ -1,0 +1,10 @@
+# vSphere target configuration
+
+hosts                   = [""]
+vsphere_folder          = ""
+vsphere_datacenter      = ""
+vsphere_cluster         = ""
+vsphere_resource_pool   = ""
+vsphere_network         = "VM Network"
+vsphere_datastore       = ""
+vsphere_content_library = "packer-templates"

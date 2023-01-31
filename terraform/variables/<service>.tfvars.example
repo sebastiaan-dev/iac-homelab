@@ -1,0 +1,12 @@
+#
+# Service
+#
+
+# VM
+<service>_vm_cpus         = 8
+<service>_vm_memory       = 16384
+<service>_vm_disk_size    = 102400
+<service>_vm_hostname     = "service"
+<service>_vm_ipv4_address = ""
+
+# Service

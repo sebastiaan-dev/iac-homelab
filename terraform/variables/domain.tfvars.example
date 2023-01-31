@@ -1,0 +1,8 @@
+# Domain configuration
+
+public_email             = ""
+public_domain            = ""
+internal_ipv4_netmask    = ""
+internal_ipv4_gateway    = ""
+internal_dns_suffix_list = []
+internal_dns_server_list = ["8.8.8.8", "8.8.4.4"]

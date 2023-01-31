@@ -7,7 +7,7 @@ terraform.tfstate.*
 terraform.tfvars
 terraform.*.tfvars
 terraform/variables/*
-!terraform/variables/terraform.tfvars.example
+!terraform/variables/*.tfvars.example
 
 # Packer
 packer_cache/

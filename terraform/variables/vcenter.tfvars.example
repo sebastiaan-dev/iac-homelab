@@ -1,0 +1,6 @@
+# vCenter credentials
+
+vsphere_vcenter_server = ""
+vsphere_user           = ""
+vsphere_password       = ""
+vsphere_unverified_ssl = true

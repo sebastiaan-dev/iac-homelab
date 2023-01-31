@@ -1,0 +1,65 @@
+---
+- name: "Install WireGuard"
+  apt:
+    name:
+      - wireguard
+    state: latest
+- name: "Configure permissions"
+  shell: |
+    umask 077
+    sudo chown -R $USER /etc/wireguard/
+  args:
+    warn: false
+- name: "Generate server credentials"
+  shell: |
+    wg genkey | tee server_private.key | wg pubkey > server_public.key
+  args:
+    chdir: "/etc/wireguard/"
+    warn: false
+- name: "Generate client credentials"
+  shell: |
+    wg genkey | tee admin_seed_private.key | wg pubkey > admin_seed_public.key
+  args:
+    chdir: "/etc/wireguard/"
+    warn: false
+- name: "Set private server key variable"
+  shell: |
+    cat server_private.key
+  register: cat
+  args:
+    chdir: "/etc/wireguard/"
+    warn: false
+- set_fact: 
+    SERVER_PRIVATE_KEY: "{{ cat.stdout }}"
+- name: "Set public client key variable"
+  shell: |
+    cat admin_seed_public.key
+  register: cat
+  args:
+    chdir: "/etc/wireguard/"
+    warn: false
+- set_fact: 
+    CLIENT_PUBLIC_KEY: "{{ cat.stdout }}"
+- name: "Copy WireGuard configuration file"
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+- name: "Configure permissions for root"
+  shell: |
+    sudo chown -R root /etc/wireguard/
+  args:
+    warn: false
+- name: "Setup WireGuard service"
+  shell: |
+    echo 'net.ipv4.ip_forward=1' >> wireguard.conf
+    echo 'net.ipv6.conf.all.forwarding=1' >> wireguard.conf
+    sudo sysctl -p wireguard.conf
+  args:
+    chdir: "/etc/sysctl.d/"
+    warn: false
+- name: "Start WireGuard service"
+  shell: |
+    sudo systemctl enable wg-quick@wg0
+    sudo systemctl start wg-quick@wg0
+  args:
+    warn: false

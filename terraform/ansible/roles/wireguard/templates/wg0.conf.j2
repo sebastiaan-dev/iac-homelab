@@ -1,0 +1,11 @@
+[Interface]
+Address = 10.23.5.1/24, fc00:23:5::1/64
+ListenPort = 51820
+PrivateKey = {{ SERVER_PRIVATE_KEY }}
+PreUp = iptables -t nat -A POSTROUTING -s 10.23.5.0/24  -o ens192 -j MASQUERADE; ip6tables -t nat -A POSTROUTING -s fc00:23:5::/64 -o ens192 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -s 10.23.5.0/24  -o ens192 -j MASQUERADE; ip6tables -t nat -D POSTROUTING -s fc00:23:5::/64 -o ens192 -j MASQUERADE
+
+# Admin seed
+[Peer]
+PublicKey = {{ CLIENT_PUBLIC_KEY }}
+AllowedIPs = 10.23.5.2/32, fc00:23:5::2/128

@@ -87,6 +87,8 @@ module "docker-infra" {
     "--extra-vars", "'DOMAIN=${var.public_domain}'",
     "--extra-vars", "'CODER_SUBDOMAIN=${var.coder_subdomain}'",
     "--extra-vars", "'CODER_SERVER=${var.coder_vm_ipv4_address}:7080'",
+    "--extra-vars", "'DEBUG=${var.traefik_debug}'",
+    "--extra-vars", "'DEV=${var.traefik_dev}'",
   ]
 }
 #

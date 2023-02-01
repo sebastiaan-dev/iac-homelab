@@ -25,3 +25,11 @@ variable "infra_vm_ipv4_address" {
 }
 
 # Service
+
+variable "traefik_debug" {
+  type = bool
+}
+
+variable "traefik_dev" {
+  type = bool
+}

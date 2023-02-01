@@ -6,14 +6,18 @@ services:
     image: "traefik:v2.9"
     container_name: "traefik"
     command:
-      # - "--log.level=DEBUG"
+      {%- if DEBUG == 'true' +%}
+      - "--log.level=DEBUG"
+      {%- endif +%}
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
+      {%- if DEV == 'true' +%}
       - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      {%- endif +%}
       - "--certificatesresolvers.le.acme.email={{ CONTACT_INFO }}"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
       - "--providers.file.directory=/home/ansible/traefik/config/"

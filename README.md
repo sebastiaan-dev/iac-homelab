@@ -106,4 +106,4 @@ ssh-keygen -f ~/.ssh/known_hosts -R <address-of-host-with-warning>
 
 ## Credits
 
-Big thanks to [these guys](https://github.com/vmware-samples/packer-examples-for-vsphere), they made this repository a possibility by having standard implementations for Packer. Be sure to check them out as they have a more elaborate selection of build options.
+Big thanks to [these guys](https://github.com/vmware-samples/packer-examples-for-vsphere), they made this repository a possibility by having standard implementations for Packer. Be sure to check them out as they have a more elaborate selection of build options. The bash script is inspired by [this](https://betterdev.blog/minimal-safe-bash-script-template/) blog post.
